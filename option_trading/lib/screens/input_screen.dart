@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:option_trading/screens/results_screen.dart';
 
-class InputScreen extends StatelessWidget{
+class InputScreen extends StatefulWidget {
+  @override
+  _InputScreenState createState() => _InputScreenState();
+}
+
+class _InputScreenState extends State<InputScreen> {
   final TextEditingController _stockPriceController = TextEditingController();
   final TextEditingController _strikePriceController = TextEditingController();
   final TextEditingController _timeToExpirationController = TextEditingController();
@@ -12,7 +17,9 @@ class InputScreen extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Options Pricing Simulation'),
+        title: const Text('Options Pricing Simulator'),
+        backgroundColor: Colors.blue[700],
+        foregroundColor: Colors.white,
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -21,27 +28,27 @@ class InputScreen extends StatelessWidget{
           children: <Widget>[
             TextFormField(
               controller: _stockPriceController,
-              decoration: InputDecoration(labelText: 'Current Stock Price'),
+              decoration: InputDecoration(labelText: 'Current Stock Price (₹)'),
               keyboardType: TextInputType.number,
             ),
             TextFormField(
               controller: _strikePriceController,
-              decoration: InputDecoration(labelText: 'Strike Price: '),
+              decoration: InputDecoration(labelText: 'Strike Price (₹)'),
               keyboardType: TextInputType.number,
             ),
             TextFormField(
               controller: _timeToExpirationController,
-              decoration: InputDecoration(labelText: 'Time to Expiration'),
+              decoration: InputDecoration(labelText: 'Time to Expiration (in Years)'),
               keyboardType: TextInputType.number,
             ),
             TextFormField(
               controller: _riskFreeRateController,
-              decoration: InputDecoration(labelText: 'Risk-Free Rate'),
+              decoration: InputDecoration(labelText: 'Risk-Free Rate (e.g., 0.06 for 6%)'),
               keyboardType: TextInputType.number,
             ),
             TextFormField(
               controller: _volatilityController,
-              decoration: InputDecoration(labelText: 'Volatility'),
+              decoration: InputDecoration(labelText: 'Volatility (e.g., 0.25 for 25%)'),
               keyboardType: TextInputType.number,
             ),
             SizedBox(height: 20),
@@ -56,16 +63,22 @@ class InputScreen extends StatelessWidget{
   }
 
   void _navigateToResultsScreen(BuildContext context) {
-    Navigator.push(
-      context, MaterialPageRoute(
-        builder: (context) => ResultsScreen(
-          stockPrice: double.parse(_stockPriceController.text),
-          strikePrice: double.parse(_strikePriceController.text),
-          timeToExpiration: double.parse(_timeToExpirationController.text),
-          riskFreeRate: double.parse(_riskFreeRateController.text),
-          volatility: double.parse(_volatilityController.text),
+    try {
+      Navigator.push(
+        context, MaterialPageRoute(
+          builder: (context) => ResultsScreen(
+            stockPrice: double.parse(_stockPriceController.text),
+            strikePrice: double.parse(_strikePriceController.text),
+            timeToExpiration: double.parse(_timeToExpirationController.text),
+            riskFreeRate: double.parse(_riskFreeRateController.text),
+            volatility: double.parse(_volatilityController.text),
+          ),
         ),
-      ),
-    );
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please enter valid numbers')),
+      );
+    }
   }
 }

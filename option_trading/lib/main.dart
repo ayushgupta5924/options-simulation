@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:option_trading/screens/input_screen.dart';
-// ignore: unused_import
-import 'package:http/http.dart' as http;
+import 'package:option_trading/screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -17,9 +14,9 @@ class MyApp extends StatelessWidget {
       title: 'Option Pricing Simulation',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Color.fromARGB(138, 76, 214, 191),
+        scaffoldBackgroundColor: Colors.white,
       ),
-      home: InputScreen(),
+      home: HomeScreen(),
     );
   }
 }
